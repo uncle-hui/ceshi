@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="bb.css">
+</head>
+<body>
+<div class="big-box">
+    <div class="ctrl-box">
+    <header>
+        <p class="one"></p>
+        <p class="two"></p>
+    </header>
+        <div class="main">
+            <div class="line"></div>
+            <div class="big-center">
+            <div class="img-box">
+            <img src="" alt="">
+            </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="bottom-box">
+                <span class="now-time">00:00</span>
+                <div class="ctrl-line">
+                    <div class="circle"></div>
+                    <div class="now"></div>
+                    <div class="ctrl-bg"></div>
+                </div>
+                <span class="total-time"></span>
+            </div>
+            <div class="cler"></div>
+            <div class="play-box">
+                <div class="state">
+                    <select>
+                        <option value="0">顺序</option>
+                        <option value="1">随机</option>
+                        <option value="2">单曲</option>
+
+                    </select>
+                </div>
+                <div class="prev"></div>
+                <div class="play"></div>
+                <div class="next"></div>
+                <div class="vlo"></div>
+            </div>
+        </div>
+        <div id="three">
+            <ul id="sss"><li id="q"><button id="a">+</button></li><li id="w"></li><li id="r"><button id="b">-</button></li></ul>
+        </div>
+    </div>
+    <div class="bg"></div>
+    <div class="menu"></div>
+</div>
+<ul id="cc">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<audio src=""></audio>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script>
+
+    //模拟一个播放列表
+
+    var json = [{
+        song: '可能否',
+        singer: '沐小雅',
+        url: '音乐/可能否.mp3',
+        pic:'img/23.jpg'
+
+
+    },
+        {
+            song: '我们的秘密',
+            singer: '邓紫棋',
+            url: '音乐/我们的秘密_l.mp3',
+            pic:'img/dzq.jpg'
+
+        },
+        {
+            song: '隔壁泰山',
+            singer: '阿里郎',
+            url: '音乐/隔壁泰山.m4a',
+            pic:'img/2h.jpg'
+
+        },
+        {
+            song: '起风了',
+            singer: '买辣椒也用卷',
+            url: '音乐/起风了.aac',
+            pic:'img/起风了1.jpg'
+
+        },
+        {
+            song: '往后余生',
+            singer: '马良',
+            url: '音乐/往后余生1.mp3',
+            pic:'img/往后余生.jpg'
+
+        },
+        {
+            song: '奇妙能力歌',
+            singer: '陈粒',
+            url: '音乐/奇妙能力歌.aac',
+            pic:'img/奇妙能力.jpg'
+
+        }
+    ]
+    var audio =document.querySelector('audio');
+    var play =document.querySelector('.play');
+    var line =document.querySelector('.line');
+    var one =document.querySelector('.one');
+    var two =document.querySelector('.two');
+    var img =document.querySelector('.img-box img');
+    var bg =document.querySelector('.bg');
+    var prev =document.querySelector('.prev');
+    var next =document.querySelector('.next');
+    var nowTime =document.querySelector('.now-time');
+    var totalTime =document.querySelector('.total-time');
+    var ctrlLine =document.querySelector('.ctrl-line');
+    var circle =document.querySelector('.circle');
+    // var stat =document.querySelector('.state');
+    var select =document.querySelector('.state select');
+    var vloL =document.querySelector('.vlo');
+    var Three =document.querySelector('#three');
+    var a =document.querySelector('#a');
+    var b =document.querySelector('#b');
+    var cc =document.querySelector('#cc');
+    var menu =document.querySelector('.menu');
+     var ss =document.querySelector('#three #w');
+    var now =document.querySelector('.footer .ctrl-line .now');
+    audio.src=json[0].url;
+    var deg=0;
+    var timer=null;
+    var index=0;
+    var num = 0;
+    menu.onclick=function () {
+        num++;
+        if(num%2===0){
+            cc.style.display='none';
+        }else {
+            cc.style.display='block';
+        }
+
+    };
+
+    function init() {
+        // 获取json数组里面需要的内容到页面上；封装函数调用；
+           deg=0;
+        audio.src=json[index].url;
+        one.innerHTML=json[index].song;
+        two.innerHTML=json[index].singer;
+        img.src=json[index].pic;
+        bg.style.background='url("'+json[index].pic+'")no-repeat center center'
+    }
+
+    function playMusic() {
+        // 判断和播放以及动画效果；
+        index = index >json.length - 1?0 : index;
+        index = index < 0 ? json.length-1 : index;
+        audio.play();
+        play.removeAttribute('class');
+        play.setAttribute('class','stop');
+        line.style.transform='rotate(-26deg)';
+        clearInterval(timer);
+        timer= setInterval(function () {
+            deg++;
+            img.style.transform='rotate('+deg+'deg)'
+        },30)
+    }
+  init();
+   // 点击播放事件
+    play.addEventListener('click',function () {
+        // 检测当前歌曲是否在播放
+          if(audio.paused){
+              // 歌曲播放
+            playMusic()
+          }else {
+              // 歌曲暂停
+              clearInterval(timer);
+              audio.pause();
+              play.removeAttribute('class');
+              play.setAttribute('class','play');
+              line.style.transform='rotate(-65deg)';
+          }
+    });
+    // 下一曲
+    next.addEventListener('click',function () {
+        index++;
+
+        init();
+        playMusic()
+    })
+    // 上一曲
+    prev.addEventListener('click',function () {
+        index--;
+
+        init();
+        playMusic()
+    })
+    function fm(data) {
+        return data>9? data: '0'+data;
+    }
+    function getTime(time) {
+        var totalSecond=parseInt(time%60);
+        var totalminut=parseInt(time/60);
+        return fm(totalminut)+':'+fm(totalSecond);
+    }
+      // 当音频准备好播放的时候触发的事件
+    audio.addEventListener('canplay',function () {
+         // 获取音频时长
+        // 总时长
+        totalTime.innerHTML=getTime(audio.duration);
+        audio.addEventListener('timeupdate',function () {
+            //获取当前时长
+            //当前时长
+            nowTime.innerHTML=getTime(audio.currentTime);
+            //进度条
+            //圆的left值=当前时长/总时长*背景条宽度-圆的宽度
+            var left = audio.currentTime/audio.duration*(ctrlLine.offsetWidth-circle.offsetWidth)
+            circle.style.left=left+'px';
+            now.style.width= left+(circle.offsetWidth/2)+'px';
+
+            if(audio.ended){
+                var state= select.value;
+                // 0代表顺序   1代表随机   2代表单曲
+                if(state==='0'){
+                    index++;
+                    init();
+                    playMusic()
+
+                } else if (state==='1'){
+                    index=Math.floor(Math.random()*json.length);
+                    init();
+                    playMusic()
+                } else if (state==='2'){
+                    playMusic();
+                }
+
+            }
+        });
+      // 获取歌曲名称
+        var str='';
+        for(var j=0;j<json.length;j++){
+            str+='<li>'+json[j].song+'</li>'
+        }
+        cc.innerHTML=str;
+        var lis =document.querySelectorAll('#cc li');
+        for(var i=0;i<lis.length;i++){
+            lis[i].index=i;
+            lis[i].onclick=function () {
+                index=this.index;
+                init();
+                playMusic()
+            }
+        }
+        // 鼠标点击进度条事件
+        ctrlLine.addEventListener('click',function (e) {
+            // 当前播放时长=鼠标点击位置/总长度*总时长
+        var nowT = e.offsetX/ctrlLine.offsetWidth*audio.duration;
+            audio.currentTime= nowT
+        })
+    });
+  var flag=0;
+    vloL.addEventListener('click',function () {
+        // 显示音量条
+        flag++;
+        if(flag%2===0){
+            Three.style.display='block';
+        }else {
+            Three.style.display='none';
+        }
+        });
+//调整音量大小
+        a.onclick = function () {
+        audio.volume+=0.1;
+        ss.style.height =audio.volume*50-'px';
+           };
+         b.onclick = function () {
+        audio.volume-=0.1;
+             ss.style.height =audio.volume*50+'px';
+         }
+
+</script>
+</html>
