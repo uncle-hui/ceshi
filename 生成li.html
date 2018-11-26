@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            list-style: none;
+            margin: 100px auto;
+        }
+        li{
+            width: 100px;
+            height: 50px;
+            margin: 10px 10px;
+            background-color: transparent;
+            float: left;
+            /*display: none;*/
+        }
+        button{
+            width: 100px;
+            height: 60px;
+            margin-left: 600px;
+        }
+
+    </style>
+</head>
+<body>
+<button>生成颜色</button>
+
+<ul id="aa">
+
+</ul>
+
+
+<script>
+     //var uls =document.getElementsByTagName('ul')[0];
+     //var lis =document.getElementsByTagName('li');
+     //var btn =document.getElementsByTagName('button')[0];
+     // var arr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+     // function b() {
+     //     var num=Math.floor(Math.random(arr)*15);
+     //     return num;
+     // }
+     //      b();
+     // btn.onclick=function () {
+     //
+     //
+     //     var str='#';
+     //     for (var i =0; i<10 ;i++){
+     //         str +=arr[b()];
+     //         var lis=document.createElement('li');
+     //         uls.appendChild(lis);
+     //         // lis[i].style.display='block'
+     //         console.log(ul.appendChild(lis));
+     //         lis.style.backgroundColor= str;
+     //     }
+     //
+     // }
+     var but = document.getElementsByTagName('button')[0];
+     var ul = document.getElementById('aa');
+     var arr = ['red','orange','yellow','green','cyan','blue','purple','yellow','green','cyan'];
+     but.addEventListener('click',function () {
+         for(var i = 0;i < 10;i ++){
+             var lis = document.createElement('li');
+             ul.appendChild(lis);
+             lis.style.backgroundColor = arr[i];
+         }
+     });
+
+</script>
+
+</body>
+</html>
